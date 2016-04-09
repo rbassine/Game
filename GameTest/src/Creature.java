@@ -1,3 +1,7 @@
+import com.sun.javafx.sg.prism.NGParallelCamera;
+
+import java.util.Random;
+
 /**
  * Created by rb129 on 4/8/2016.
  */
@@ -12,24 +16,19 @@ public class Creature {
          */
 
     // Constructors
-    public Creature(String name, String type, boolean isNPC){
+    public Creature(String name, String type){
         stats = new int[7];
         this.name = name;
-        if(isNPC == true){
-            this.isNPC = true;
-            this.type = "NPC";
-        }
-        else{
-            this.isNPC = false;
-            this.type = "Object?";
-        }
+        this.isNPC = true;
+        this.type = "NGP";      // Cannot battle with
         // No stats needed
     }
 
-    public Creature(String name, String type, boolean isNPC, int hpMpRange, int otherRange){
+    public Creature(String name, String type, int[] statRanges){
         this.name = name;
         this.type = type;
-        setStats(hpMpRange, otherRange);
+        setStats(statRanges);
+        this.isNPC = false;     // Can battle with
     }
 
     public void setName(String name){
@@ -56,7 +55,20 @@ public class Creature {
         return isNPC;
     }
 
-    public void setStats(int hpMpRange, int otherRange){
+    public void setStats(int[] statRanges){
+        Random rand = new Random();
 
+        /*
+            statRanges [0] = hp low end     [1] hp high end     and so on
+         */
+
+        for(int i = 0; i < statRanges.length; i += 2){
+            int tempStat = rand.nextInt(statRanges[i+1] - statRanges[i]) + statRanges[i];
+            this.stats[i] = tempStat;
+        }
+    }
+
+    public int[] getStats(){
+        return stats;
     }
 }
