@@ -16,7 +16,7 @@ public class GamePanel extends JPanel {
     public GamePanel(){
         setLayout(new BoxLayout(this, BoxLayout.Y_AXIS));
 
-        output = "Persona";     // See note in button listener
+        output = "Hello World!";     // See note in button listener
 
         messageWindow = new JLabel(output);
         nextButton = new JButton(">");
