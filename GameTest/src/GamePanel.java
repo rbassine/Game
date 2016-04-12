@@ -1,14 +1,17 @@
 import javax.swing.*;
-import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.io.File;
+import java.io.FileNotFoundException;
+import java.util.Scanner;
 
 /**
  * Created by rb129 on 4/8/2016.
  */
 public class GamePanel extends JPanel {
-    private String output;
+    private File dialog;
+    private final String START = "---START---";
+    private final String END = "---END---";
 
     private JLabel messageWindow;   // temporary, will be used to test until some graphics are added
     private JButton nextButton;
@@ -16,10 +19,34 @@ public class GamePanel extends JPanel {
     public GamePanel(){
         setLayout(new BoxLayout(this, BoxLayout.Y_AXIS));
 
-        output = "Hello World!";     // See note in button listener
-
-        messageWindow = new JLabel(output);
+        messageWindow = new JLabel();
         nextButton = new JButton(">");
+
+        try {
+            Scanner fileScan = new Scanner(dialog);
+            boolean next = false;
+            String output = "";
+            if(fileScan.hasNextLine()){
+                String inputLine = fileScan.nextLine();
+                if(inputLine.equalsIgnoreCase(START)){
+                    next = true;
+                }
+                while(next == true){
+                    ;output += inputLine;
+                    if(fileScan.hasNextLine()){
+                        inputLine = fileScan.nextLine();
+                    }
+                    if(inputLine == END){
+                        next = false;
+                    }
+                }
+            }
+
+            fileScan.close();
+        }
+        catch (FileNotFoundException e) {
+            System.out.println("Dialog file not found!");
+        }
 
         this.add(messageWindow);
         this.add(nextButton);

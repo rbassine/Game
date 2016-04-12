@@ -16,14 +16,6 @@ public class Creature {
          */
 
     // Constructors
-    public Creature(String name, String type){
-        stats = new int[7];
-        this.name = name;
-        this.isNPC = true;
-        this.type = "NGP";      // Cannot battle with
-        // No stats needed
-    }
-
     public Creature(String name, String type, int[] statRanges){
         this.name = name;
         this.type = type;
@@ -95,7 +87,7 @@ public class Creature {
         return stats[i];
     }
 
-    public int attack(Creature target){
+    public int attack(Player target){
         Random rand = new Random();
 
         int attackRange = (int)(this.stats[4] * 0.2);
