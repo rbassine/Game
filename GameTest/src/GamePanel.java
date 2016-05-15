@@ -18,32 +18,44 @@ public class GamePanel extends JPanel {
     private JButton nextButton;
     private JTextPane messageWindow;
     private String outputText;
+    private Scanner fileScan;
 
     public GamePanel() {
         ButtonListener listener = new ButtonListener();
         setLayout(new BoxLayout(this, BoxLayout.Y_AXIS));
 
         dialog = new File("dialog.txt");
-        outputText = "Hello World";
+        try {
+            fileScan = new Scanner(dialog);
 
-        messageWindow = new JTextPane();
-        messageWindow.setPreferredSize(new Dimension(500, 400));
-        messageWindow.setEditable(false);
+            outputText = fileScan.nextLine();
 
-        // Used to center the Text filed
-        StyledDocument doc = messageWindow.getStyledDocument();
-        SimpleAttributeSet center = new SimpleAttributeSet();
-        StyleConstants.setAlignment(center, StyleConstants.ALIGN_CENTER);
-        doc.setParagraphAttributes(0, doc.getLength(), center, false);
+            messageWindow = new JTextPane();
+            messageWindow.setPreferredSize(new Dimension(500, 400));
+            messageWindow.setEditable(false);
 
-        messageWindow.setText(outputText);
+            JScrollPane scrollPane = new JScrollPane(messageWindow,
+                    ScrollPaneConstants.VERTICAL_SCROLLBAR_ALWAYS,
+                    ScrollPaneConstants.HORIZONTAL_SCROLLBAR_AS_NEEDED);
 
-        nextButton = new JButton(">");
-        nextButton.addActionListener(listener);
-        nextButton.setAlignmentX((float) 0.5);
+            // Used to center the Text filed
+            StyledDocument doc = messageWindow.getStyledDocument();
+            SimpleAttributeSet center = new SimpleAttributeSet();
+            StyleConstants.setAlignment(center, StyleConstants.ALIGN_CENTER);
+            doc.setParagraphAttributes(0, doc.getLength(), center, false);
 
-        this.add(messageWindow);
-        this.add(nextButton);
+            messageWindow.setText(outputText);
+
+            nextButton = new JButton(">");
+            nextButton.addActionListener(listener);
+            nextButton.setAlignmentX((float) 0.5);
+
+            this.add(scrollPane);
+            this.add(nextButton);
+
+        } catch (FileNotFoundException e) {
+            e.printStackTrace();
+        }
     }
 
     private class ButtonListener implements ActionListener {
@@ -51,45 +63,12 @@ public class GamePanel extends JPanel {
         @Override
         public void actionPerformed(ActionEvent e) {
             // Currently only one button
-            /*
-                TODO: Setup system to get text from a Java file and read it into the messageWindow
-                TODO: after the nextButton is clicked. This would be easy if it was all in a text
-                TODO: file, but inorder to make it so things like the Creature.java file work with it
-                TODO: it will have to be done differently.
-             */
-            outputText += "\n\n a";
+
+            outputText += "\n\n" + fileScan.nextLine();
             messageWindow.setText(outputText);
+            if(!fileScan.hasNextLine()){
+                nextButton.setEnabled(false);
+            }
         }
     }
-
-//    public String readFile(File file) {
-//        String output = "";
-//        try {
-//            Scanner fileScan = new Scanner(dialog);
-//            boolean next = false;
-//            if (fileScan.hasNextLine()) {
-//                String inputLine = fileScan.nextLine();
-//                if (inputLine.equalsIgnoreCase(START)) {
-//                    next = true;
-//                }
-//                while (next == true) {
-//                    output += inputLine;
-//                    if (fileScan.hasNextLine()) {
-//                        inputLine = fileScan.nextLine();
-//                    }
-//                    if (inputLine == END) {
-//                        next = false;
-//                    }
-//                }
-//                messageWindow = new JLabel(output);
-//
-//            }
-//
-//            fileScan.close();
-//        } catch (FileNotFoundException e) {
-//            System.out.println("Dialog file not found!");
-//        }
-//
-//        return output;
-//    }
 }
