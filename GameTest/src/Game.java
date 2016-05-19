@@ -1,4 +1,5 @@
 import javax.swing.*;
+import java.awt.*;
 import java.io.File;
 
 /**
@@ -9,6 +10,7 @@ public class Game {
         JFrame frame = new JFrame("GameTest");
         frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         GamePanel panel = new GamePanel();
+        panel.setPreferredSize(new Dimension(700, 500));
         frame.getContentPane().add(panel);
 
         frame.pack();

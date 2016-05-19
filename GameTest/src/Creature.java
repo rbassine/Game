@@ -9,6 +9,7 @@ public class Creature {
     // Instance variables
     private String name;
     private String type;
+    private int level;
     private boolean isNPC;
     private int[] stats;
         /*
@@ -23,12 +24,46 @@ public class Creature {
         this.isNPC = false;     // Can battle with
     }
 
+    public Creature(String name, String type, int level){
+        // Auto generates stats based off given level
+        Random rand = new Random();
+
+        this.name = name;
+        stats = new int[9];
+        this.level = level;
+
+        int variation = 0;
+
+        for(int i = 0; i < stats.length; i++){
+            if(i == 0 || i == 2){
+                continue;
+            }
+            else if(i == 1 || i == 3){
+                variation = (rand.nextInt(60) - 10) * level;
+                stats[i] = variation + 50;
+                stats[i-1] = stats[i];
+            }
+            else{
+                variation = (rand.nextInt(10) - 5) * level;
+                stats[i] = variation + 10;
+            }
+        }
+    }
+
     public void setName(String name){
         this.name = name;
     }
 
     public String getName(){
         return name;
+    }
+
+    public void setLevel(int level){
+        this.level = level;
+    }
+
+    public int getLevel(){
+        return level;
     }
 
     public void setType(String type){

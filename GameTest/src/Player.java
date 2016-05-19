@@ -7,15 +7,44 @@ public class Player {
 
     private String name;
     private String type;
+    private int level;
     private int stats[];
     private Equipment equipment[];
 
     public Player(String name, int[] statRanges){
+        this.name = name;
 
     }
 
-    public Player(Creature creature){
-        // For if an enemy joins your party
+    public Player(String name, int level){
+        // Auto generates stats based off given level
+        Random rand = new Random();
+
+        this.name = name;
+        stats = new int[9];
+        this.level = level;
+
+        int variation = 0;
+
+        for(int i = 0; i < stats.length; i++){
+            if(i == 0 || i == 2){
+                continue;
+            }
+            else if(i == 1){
+                variation = (rand.nextInt(60) - 10) * level;
+                stats[i] = variation + 50;
+                stats[i-1] = stats[i];
+            }
+            else if(i == 3){
+                variation = (rand.nextInt(30) - 10) * level;
+                stats[i] = variation + 25;
+                stats[i-1] = stats[i];
+            }
+            else{
+                variation = (rand.nextInt(10) - 5) * level;
+                stats[i] = variation + 10;
+            }
+        }
     }
 
     public void setName(String name){
@@ -24,6 +53,14 @@ public class Player {
 
     public String getName(){
         return name;
+    }
+
+    public void setLevel(int level){
+        this.level = level;
+    }
+
+    public int getLevel(){
+        return this.level;
     }
 
     public void setType(String type){
@@ -72,5 +109,18 @@ public class Player {
 
     public int getSingleStat(int i){
         return stats[i];
+    }
+
+    public String toString(){
+        String output = "\n";
+
+        output += name + "\n" + "Level: " + level + "\n";
+        output += "HP: " + stats[0] + "/" + stats[1] + "\t\t";
+        output += "MP: " + stats[2] + "/" + stats[3] + "\n";
+        output += "Str: " + stats[4] + "\t\t" + "Def: " + stats[5] + "\n";
+        output += "Spr: " + stats[6] + "\t\t" + "MDef: " + stats[7] + "\n";
+        output += "Speed: " + stats[8] + "\n\n";
+
+        return output;
     }
 }
