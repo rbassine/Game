@@ -1,0 +1,20 @@
+Persona
+More stuff to be implemented
+This line is a test line...
+I am going to need to make it so that a long line will move the extra text to another line, rather than use the scroll bar...
+but the is more text to make sure the scroll pane is working properly
+Hopefully it is.
+But later this text is going to be replaced with some sample text that will at least be more interesting.
+However, for now it is just this.
+Never mind about the comment above about making the horizontal scroll bar not needed.
+Apparently the JTextArea already does that...
+But a few more lines are needed to fill the JTextArea
+So
+I
+am
+doing
+it
+this
+way
+for
+now...
