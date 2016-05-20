@@ -1,7 +1,0 @@
----Start---
-Persona
----End---
-
----Start---
-More stuff to be implemented
----End---
